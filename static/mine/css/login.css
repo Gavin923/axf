@@ -1,0 +1,24 @@
+.login .back{
+    text-align: right;
+}
+.login .back a{
+    font-size: 1.5rem;
+}
+
+.login form{
+    padding: 0 1rem;
+}
+.login form .input-group{
+    margin: 0.5rem 0;
+}
+
+#subButton {
+    width: 100%;
+}
+i{
+    font-style: normal;
+}
+.login i{
+    font-size: 0.8rem;
+    color: red;
+}

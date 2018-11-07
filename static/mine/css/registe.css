@@ -1,0 +1,38 @@
+.register{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background: whitesmoke;
+}
+
+.register .back{
+    text-align: right;
+    padding: 0.2rem;
+}
+.register .back a{
+    font-size: 1.2rem;
+}
+
+.register form{
+    width: 100%;
+    padding: 0 1rem;
+}
+.form-group{
+    margin-bottom: 0;
+}
+.register form .input-group{
+    margin: 0.5rem 0;
+}
+
+i{
+    font-style: normal;
+}
+.register i{
+    color: red;
+    font-size: 0.8rem;
+}
+
+#subButton {
+    width: 100%;
+}
+

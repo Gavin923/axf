@@ -96,3 +96,26 @@ class Goods(models.Model):
 
     class Meta:
         db_table = 'axf_goods'
+
+class User(models.Model):
+    account = models.CharField(max_length=20, unique=True)
+    password = models.CharField(max_length=256)
+    name = models.CharField(max_length=80)
+    phone = models.CharField(max_length=20,unique=True)
+    addr = models.CharField(max_length=256)
+    img = models.CharField(max_length=100)
+    rank = models.IntegerField(default=1)
+    token = models.CharField(max_length=256)
+
+    class Meta:
+        db_table = 'axf_user'
+
+# 购物车
+class Cart(models.Model):
+    user = models.ForeignKey(User)
+    goods = models.ForeignKey(Goods)
+    number = models.IntegerField()
+    isselect = models.BooleanField(default=True)
+
+    class Meta:
+        db_table = 'axf_Cart'
