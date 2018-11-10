@@ -14,4 +14,12 @@ urlpatterns = [
     url(r'^checkaccount/$', views.checkaccount, name='checkaccount'),
     url(r'^addcart/$', views.addcart, name='addcart'),
     url(r'^subcart/$', views.subcart, name='subcart'),
+    url(r'^changecartstatus/$', views.changecartstatus, name='changecartstatus'),
+    url(r'^changecartselect/$', views.changecartselect, name='changecartselect'),
+    url(r'^total/$', views.total, name='total'),
+    url(r'^generateorder/$', views.generateorder, name='generateorder'),
+    url(r'^orderinfo/(\d+)/$', views.orderinfo, name='orderinfo'),
+    url(r'^notifyurl/$', views.notifyurl, name='notifyurl'),
+    url(r'^returnurl/$', views.returnurl, name='returnurl'),
+    url(r'^pay/$', views.pay, name='pay'),
 ]

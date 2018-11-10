@@ -16,11 +16,11 @@
         <ul>
             {% for cart in carts %}
                 <li>
-                    <div class="confirm-wrapper">
+                    <div class="confirm-wrapper" cartid="{{ cart.id }}">
                         {% if cart.isselect %}
                             <span class="glyphicon glyphicon-ok"></span>
                         {% else %}
-                            <span class="no"></span>
+                            <span class="glyphicon no"></span>
                         {% endif %}
                     </div>
                     <div class="content-wrapper">
@@ -45,7 +45,7 @@
 
         <div class="bill">
             <div class="bill-left">
-                <div class="all">
+                <div class="all" isselect="false">
                     <span class="no"></span>
                     <b>全选</b>
                 </div>
@@ -54,7 +54,7 @@
                     <b>0</b>
                 </div>
             </div>
-            <div class="bill-right">
+            <div class="bill-right" id="generateorder">
                 下单
             </div>
         </div>

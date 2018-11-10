@@ -1,12 +1,14 @@
 import hashlib
 import os
+import random
+import time
 import uuid
 
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 
 # Create your views here.
-from app.models import Wheel, Nav, Mustbuy, Shop, MainShow, Foodtypes, Goods, User, Cart
+from app.models import Wheel, Nav, Mustbuy, Shop, MainShow, Foodtypes, Goods, User, Cart, Order, OrderGoods
 from myaxf import settings
 
 # 主页
@@ -253,3 +255,93 @@ def checkaccount(request):
             'status': 1,
         }
     return JsonResponse(data)
+
+# 改变单个购物车选中状态
+def changecartstatus(request):
+    cartid = request.GET.get('cartid')
+    cart = Cart.objects.get(pk=cartid)
+    cart.isselect = not cart.isselect
+    cart.save()
+    data = {
+        'msg': '选中状态改变',
+        'status': 1,
+        'isselect': cart.isselect,
+    }
+    print(cartid)
+    return JsonResponse(data)
+
+
+def changecartselect(request):
+    isselect = request.GET.get('isselect')
+    if isselect == 'true':
+        isselect = True
+    else:
+        isselect = False
+
+    token = request.session.get('token')
+    user = User.objects.get(token=token)
+    carts = Cart.objects.filter(user=user)
+    for cart in carts:
+        cart.isselect = isselect
+        cart.save()
+
+    return JsonResponse({'msg': '反选操作成功', 'status': 1})
+
+
+class Math(object):
+    pass
+
+
+def total(request):
+    token = request.session.get('token')
+    user = User.objects.get(token=token)
+    carts = Cart.objects.filter(user=user).filter(isselect=True)
+    sum = 0
+    for cart in carts:
+        sum += cart.goods.marketprice*cart.number
+    return JsonResponse({'sum':round(sum, 2), 'status':1})
+
+
+def generateorder(request):
+    token = request.session.get('token')
+    user = User.objects.get(token=token)
+    # 订单
+    order = Order()
+    order.user = user
+    order.identifier = str(int(time.time())) + str(random.randrange(1000,10000))
+    order.save()
+    #添加订单商品
+    carts = Cart.objects.filter(user=user).filter(isselect=True)
+    for cart in carts:
+        orderGoods = OrderGoods()
+        orderGoods.order = order
+        orderGoods.goods = cart.goods
+        orderGoods.number = cart.number
+        orderGoods.save()
+        #删除购物车
+        cart.delete()
+    data = {
+        'msg':'订单生成成功',
+        'status':1,
+        'identifier':order.identifier,
+    }
+    return JsonResponse(data)
+
+
+def orderinfo(request, identifier):
+    # 一个订单 对应 多个商品
+    order = Order.objects.get(identifier=identifier)
+
+    return render(request, 'order/orderinfo.html', context={'order': order})
+
+
+def notifyurl(request):
+    return None
+
+
+def returnurl(request):
+    return None
+
+
+def pay(request):
+    return None
